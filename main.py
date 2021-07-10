@@ -13,7 +13,7 @@ from threading import Thread
 from time import sleep
 from sys import argv
 
-webhook_url = "https://discord.com/api/webhooks/855825437762781184/WNFH-QCRw-Cey0ZJu-XMbZcEb4MjBqTv3wIY-Mt9PRNHZEhxM_ieF4ftHEbt2G2wdAOv"
+webhook_url = "YOUR WEBHOOK HERE"
 
 languages = {
 	'da'    : 'Danish, Denmark',
