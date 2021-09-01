@@ -22,4 +22,4 @@ code ✅
 * ` Grabs creation date`
 * ` Grabs if they have email verified + if 2fa is enabled`
 * ` And ofcourse grabs their username + ID`
-* The webhook looks like [this](https://imgur.com/ldRgNFw)
+* The webhook looks like [this](https://imgur.com/534B2yD)
