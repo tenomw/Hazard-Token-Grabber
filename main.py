@@ -10,7 +10,7 @@ from subprocess import Popen, PIPE
 from urllib.request import Request, urlopen
 from datetime import datetime
 
-webhook_url = "YOUR WEBHOOK HERE"
+webhook_url = "YOUR_WEBHOOK_HERE"
 
 languages = {
 	'da'    : 'Danish, Denmark',
